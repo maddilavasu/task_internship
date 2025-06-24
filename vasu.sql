@@ -1,0 +1,8 @@
+create table User (UserId int auto_increment primary key,Name varchar(20),Email varchar(50) unique,Password varchar(20),Address text,PhonerNumber varchar(15));
+create table Category(CategoryID int auto_increment primary key,Name varchar (100),Description text);
+create table Product(ProductID int auto_increment primary key,Name varchar(100),Description text,Price decimal(10,2),Stock int,CategoryID int,foreign key (CategoryID) references Category(CategoryID));
+create table Cart(CartID int auto_increment primary key,UserID int,CreateDate datetime default current_timestamp,foreign key(UserID)references User(UserID));
+create table CartItem(CartItemID int auto_increment primary key,CartID int ,ProductID int,Quantity int,foreign key (CartID) references Cart(CartID),foreign key (ProductID) references Product(ProductID));
+create table Orders(OrderID int auto_increment primary key,UserID int,OrderDate datetime default current_timestamp,ShippingAddress text,TotalAmount decimal(10,2),Status varchar(50),foreign key(UserID) references User(UserID));
+CREATE TABLE OrderItem (OrderItemID INT AUTO_INCREMENT PRIMARY KEY,OrderID INT,ProductID INT,Quantity INT,Price DECIMAL(10,2),FOREIGN KEY (OrderID) REFERENCES Orders(OrderID),FOREIGN KEY (ProductID) REFERENCES Product(ProductID));
+CREATE TABLE Payment (PaymentID INT AUTO_INCREMENT PRIMARY KEY,OrderID INT,PaymentDate DATETIME DEFAULT CURRENT_TIMESTAMP,Amount DECIMAL(10,2),PaymentMethod VARCHAR(50),Status VARCHAR(50),FOREIGN KEY (OrderID) REFERENCES Orders(OrderID));
